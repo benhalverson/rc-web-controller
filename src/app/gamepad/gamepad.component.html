@@ -1,0 +1,23 @@
+<div *ngIf="gamepad() as g">
+  <h2>Connected: {{ g.id }}</h2>
+
+  <h3>Buttons</h3>
+  <p>A: {{ buttonA() ? "Pressed" : "Released" }}</p>
+  <p>B: {{ buttonB() ? "Pressed" : "Released" }}</p>
+  <p>X: {{ buttonX() ? "Pressed" : "Released" }}</p>
+  <p>Y: {{ buttonY() ? "Pressed" : "Released" }}</p>
+  <p>Left Trigger {{ leftTrigger() ? "Pressed" : "Released" }}</p>
+  <p>Right Trigger {{ rightTrigger() ? "Pressed" : "Released" }}</p>
+
+  <h3>Joysticks</h3>
+  <p>
+    Left Stick: X={{ leftStickX().toFixed(2) }}, Y={{ leftStickY().toFixed(2) }}
+  </p>
+  <p>
+    Right Stick: X={{ rightStickX().toFixed(2) }}, Y={{
+      rightStickY().toFixed(2)
+    }}
+  </p>
+</div>
+
+<p *ngIf="!gamepad()">No Gamepad Connected</p>
