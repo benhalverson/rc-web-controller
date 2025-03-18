@@ -1,23 +1,23 @@
-<div *ngIf="gamepad() as g">
-  <h2>Connected: {{ g.id }}</h2>
+<h3>Controller Status</h3>
+<p *ngIf="gamepad()">🎮 Connected: {{ gamepad()?.id }}</p>
+<p *ngIf="!gamepad()">❌ No Gamepad Detected</p>
 
-  <h3>Buttons</h3>
-  <p>A: {{ buttonA() ? "Pressed" : "Released" }}</p>
-  <p>B: {{ buttonB() ? "Pressed" : "Released" }}</p>
-  <p>X: {{ buttonX() ? "Pressed" : "Released" }}</p>
-  <p>Y: {{ buttonY() ? "Pressed" : "Released" }}</p>
-  <p>Left Trigger {{ leftTrigger() ? "Pressed" : "Released" }}</p>
-  <p>Right Trigger {{ rightTrigger() ? "Pressed" : "Released" }}</p>
+<h3>Trigger Values</h3>
+<p>Right Trigger (RT): {{ rightTrigger().toFixed(2) }}</p>
+<p>Left Trigger (LT): {{ leftTrigger().toFixed(2) }}</p>
 
-  <h3>Joysticks</h3>
-  <p>
-    Left Stick: X={{ leftStickX().toFixed(2) }}, Y={{ leftStickY().toFixed(2) }}
-  </p>
-  <p>
-    Right Stick: X={{ rightStickX().toFixed(2) }}, Y={{
-      rightStickY().toFixed(2)
-    }}
-  </p>
-</div>
+<h3>Joystick Axes</h3>
+<ul>
+  <li>Left Stick X: {{ leftStickX().toFixed(2) }}</li>
+  <li>Left Stick Y: {{ leftStickY().toFixed(2) }}</li>
+  <li>Right Stick X: {{ rightStickX().toFixed(2) }}</li>
+  <li>Right Stick Y: {{ rightStickY().toFixed(2) }}</li>
+</ul>
 
-<p *ngIf="!gamepad()">No Gamepad Connected</p>
+<h3>Buttons</h3>
+<ul>
+  <li>A: {{ buttonA() ? 'Pressed' : 'Released' }}</li>
+  <li>B: {{ buttonB() ? 'Pressed' : 'Released' }}</li>
+  <li>X: {{ buttonX() ? 'Pressed' : 'Released' }}</li>
+  <li>Y: {{ buttonY() ? 'Pressed' : 'Released' }}</li>
+</ul>
