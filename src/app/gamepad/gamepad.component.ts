@@ -36,9 +36,8 @@ export class GamepadComponent {
     this.rightStickY = this.gamepadService.getAxisState(3);
 
     effect(() => {
-      console.log('%cGamepad Updated:', 'color: green;', this.gamepad());
-      console.log('%cRight Trigger:', 'color: blue;', this.rightTrigger());
-      console.log('%cLeft Stick X:', 'color: purple;', this.leftStickX());
+      console.log('Right Trigger:', this.rightTrigger());
+      console.log('Left Stick X:', this.leftStickX());
     });
   }
 }

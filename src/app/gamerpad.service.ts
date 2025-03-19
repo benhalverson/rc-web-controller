@@ -13,7 +13,6 @@ export class GamerpadService {
     this.connectWebSocket();
     console.log('Gamepad service initialized');
 
-    // ✅ Use an effect to automatically send data when rightTrigger or leftAxis changes
     effect(() => {
       this.sendToWebSocket();
     });
@@ -22,7 +21,7 @@ export class GamerpadService {
   private connectWebSocket() {
     if (this.websocket) return; // Prevent multiple connections
 
-    this.websocket = new WebSocket('ws://localhost:8000/ws');
+    this.websocket = new WebSocket('ws://100.117.255.12:8000/ws');
 
     this.websocket.onopen = () => {
         console.log('%cWebSocket connection established', 'color: green; font-weight: bold;');
@@ -30,17 +29,17 @@ export class GamerpadService {
 
     this.websocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log('%cReceived from server:', 'color: blue;', data);
+        console.log('Received from server:', data);
     };
 
     this.websocket.onerror = (error) => {
-        console.error('%cWebSocket error:', 'color: red;', error);
+        console.error('WebSocket error:');
     };
 
     this.websocket.onclose = () => {
-        console.warn('%cWebSocket connection closed. Reconnecting...', 'color: orange; font-weight: bold;');
+        console.warn('WebSocket connection closed. Reconnecting...');
         this.websocket = null;
-        setTimeout(() => this.connectWebSocket(), 3000); // ✅ Auto-reconnect after 3 seconds
+        setTimeout(() => this.connectWebSocket(), 3000);
     };
 }
 
@@ -53,11 +52,10 @@ export class GamerpadService {
     const rightTrigger = this.getRightTrigger()();
     const leftAxis = this.getAxisState(0)();
 
-    // ✅ Only send data when RT is pressed or left joystick moves left/right
     if (rightTrigger > 0.0 || Math.abs(leftAxis) > 0.1) {
       const data = JSON.stringify({ right_trigger: rightTrigger, left_axis: leftAxis });
       this.websocket.send(data);
-      console.log('%cSent data:', 'color: blue;', data);
+      console.log('%cSent data:', data);
     }
   }
 
@@ -66,13 +64,13 @@ export class GamerpadService {
       console.log('%cEnable Gamepad', 'color: purple; font-weight: bold;');
 
       window.addEventListener('gamepadconnected', (event: GamepadEvent) => {
-        console.log('%cGamepad connected:', 'color: green;', event.gamepad);
+        console.log('Gamepad connected:', event.gamepad);
         this.gamepad.set(event.gamepad);
         this.pollGamepad();
       });
 
       window.addEventListener('gamepaddisconnected', () => {
-        console.log('%cGamepad disconnected', 'color: red;');
+        console.log('Gamepad disconnected');
         this.gamepad.set(null);
       });
 
@@ -95,6 +93,7 @@ export class GamerpadService {
             this.gamepad.set(gamepads[0]);
         }
         requestAnimationFrame(update);
+        this.sendToWebSocket();
     };
     update();
 }
